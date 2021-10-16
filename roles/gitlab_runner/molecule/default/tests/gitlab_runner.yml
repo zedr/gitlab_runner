@@ -1,0 +1,28 @@
+---
+- name: "Collect facts about container volumes"
+  become: yes
+  podman_volume_info:
+    name: "gitlab-runner-config"
+  register: volume_state
+
+- debug:
+    msg: "{{ volume_state }}"
+
+- name: "Check that the first volume's name is what we expect"
+  assert:
+    that:
+      - volume_state.volumes[0]['Name'] == 'gitlab-runner-config'
+
+- name: Get infos on container
+  become: yes
+  podman_container_info:
+    name: "gitlab-runner"
+  register: container_state
+
+- debug:
+    msg: "{{ container_state }}"
+
+- assert:
+    that:
+      - container_state.containers[0]['Name'] == 'gitlab-runner'
+      - container_state.containers[0]['State']['Status'] == 'running'

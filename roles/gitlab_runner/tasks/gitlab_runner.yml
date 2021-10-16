@@ -1,0 +1,20 @@
+---
+- name: "Create the gitlab_runner volume"
+  become: yes
+  containers.podman.podman_volume:
+    name: "gitlab-runner-config"
+
+- name: "Create the gitlab_runner container"
+  become: yes
+  become_user: root
+  containers.podman.podman_container:
+    name: "gitlab-runner"
+    state: started
+    restart_policy: always
+    image: "docker.io/gitlab/gitlab-runner:latest"
+    privileged: true
+    env:
+      DOCKER_HOST: "unix:///var/run/podman/podman.sock"
+    volumes:
+      - "/run/podman/podman.sock:/var/run/podman/podman.sock"
+      - "gitlab-runner-config:/etc/gitlab-runner"

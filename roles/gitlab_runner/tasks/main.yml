@@ -5,3 +5,9 @@
 
 - include_tasks:
     file: "user.yml"
+
+- include_tasks:
+    file: "podman.yml"
+
+- include_tasks:
+    file: "gitlab_runner.yml"

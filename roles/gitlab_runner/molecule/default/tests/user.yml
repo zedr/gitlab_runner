@@ -3,6 +3,7 @@
     path: "/home/gitlab-runner"
   become: yes
   register: user_home
+
 - debug:
     msg: "{{ user_home }}"
 - fail:

@@ -1,0 +1,14 @@
+---
+- name: "Install podman"
+  become: yes
+  dnf:
+    name:
+      - podman
+
+- name: "Enable Podman socket"
+  become: yes
+  systemd:
+    name: "podman"
+    state: started
+    enabled: yes
+    daemon_reload: yes

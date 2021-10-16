@@ -1,0 +1,26 @@
+---
+- name: collect facts about system services
+  service_facts:
+  register: services_state
+
+- debug:
+    msg: "{{ services_state.ansible_facts.services['podman.service'] }}"
+
+- name: "Check the status of systemd service Podman"
+  assert:
+    that:
+     - services_state.ansible_facts.services['podman.service'].status == "enabled"
+
+- name: "Check the Podman socket"
+  stat:
+    path: "/run/podman/podman.sock"
+  register: podman_sock
+
+- debug:
+    msg: "{{ podman_sock }}"
+
+- name: "Check that the socket file exists"
+  assert:
+    that:
+      - podman_sock.stat.exists is true
+

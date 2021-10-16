@@ -5,6 +5,6 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: "gitlab-user tests"
-      include_tasks:
-        file: "user/user.yml"
+    - include_tasks: "tests/user.yml"
+    - include_tasks: "tests/podman.yml"
+    - include_tasks: "tests/gitlab_runner.yml"

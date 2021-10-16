@@ -1,9 +1,10 @@
 ---
-- name: "Install podman"
+- name: "Install Podman and dependencies"
   become: yes
   dnf:
     name:
       - podman
+      - libselinux-python3
 
 - name: "Enable Podman socket"
   become: yes

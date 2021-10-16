@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Provision a Gitlab Runner on Fedora using Podman.
 
 Requirements
 ------------
@@ -30,9 +30,9 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+BSD-3-Clause
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+See: https://github.com/zedr/ansible-podman-gitlab-runner

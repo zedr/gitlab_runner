@@ -20,8 +20,8 @@
   blockinfile:
     create: yes
     path: "{{ _volume_path }}/config.toml"
-    block: "{{ runner_config_doc }}"
-  when: runner_config_doc is defined
+    block: "{{ config_toml }}"
+  when: config_toml is defined
 
 - name: "Create the gitlab_runner container"
   become: yes

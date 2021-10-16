@@ -1,0 +1,9 @@
+---
+- stat:
+    path: "/home/gitlab-runner"
+  become: yes
+  register: user_home
+- debug:
+    msg: "{{ user_home }}"
+- fail:
+  when: user_home.stat.exists is false

@@ -1,0 +1,6 @@
+---
+- name: "Create the local gitlab-runner user"
+  become: yes
+  user:
+    name: "gitlab-runner"
+    group: "users"

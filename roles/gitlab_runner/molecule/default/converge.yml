@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include gitlab_runner"
+      include_role:
+        name: "gitlab_runner"

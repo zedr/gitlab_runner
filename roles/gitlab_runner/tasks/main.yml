@@ -1,0 +1,7 @@
+---
+- name: "DEBUG: print hostname"
+  debug:
+    msg: "Running on {{ ansible_host }}"
+
+- include_tasks:
+    file: "user.yml"

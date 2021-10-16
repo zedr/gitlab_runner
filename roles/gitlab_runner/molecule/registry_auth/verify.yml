@@ -1,0 +1,10 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - include_tasks: "../default/tests/user.yml"
+    - include_tasks: "../default/tests/podman.yml"
+    - include_tasks: "../default/tests/gitlab_runner.yml"

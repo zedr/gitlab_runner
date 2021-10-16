@@ -1,0 +1,31 @@
+---
+- name: "Install Podman and dependencies"
+  become: yes
+  dnf:
+    name:
+      - podman
+      - python3-libselinux
+
+- name: "Add explicit cgroupfs configuration"
+  become: yes
+  blockinfile:
+    create: true
+    path: /etc/containers/containers.conf
+    block: |
+      [engine]
+      cgroup_manager = "cgroupfs"
+
+- name: "Enable Podman socket"
+  become: yes
+  systemd:
+    name: "podman"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: "Set the ACL for the gitlab-runner user on the Podman socket file"
+  become: yes
+  acl:
+    path: /var/run/podman/podman.sock
+    entry: "user:gitlab-runner:rw"
+    state: present

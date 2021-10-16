@@ -4,6 +4,10 @@
   roles:
     - role: gitlab_runner
   vars:
+    runner_image: "{{ custom_runner_image }}"
+    registry_host: "{{ custom_registry_host }}"
+    registry_username: "{{ custom_registry_username }}"
+    registry_password: "{{ custom_registry_password }}"
     config_toml: |
       concurrent = 1
       check_interval = 0

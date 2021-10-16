@@ -1,7 +1,18 @@
 ---
-- name: "DEBUG: print hostname"
-  debug:
-    msg: "Running on {{ ansible_host }}"
-
-- include_tasks:
+- name: "Running User creation tasks on {{ ansible_host }}"
+  include_tasks:
     file: "user.yml"
+  tags:
+    - user
+
+- name: "Running Podman setup tasks on {{ ansible_host }}"
+  include_tasks:
+    file: "podman.yml"
+  tags:
+    - podman
+
+- name: "Running Gitlab Runner setup tasks on {{ ansible_host }}"
+  include_tasks:
+    file: "gitlab_runner.yml"
+  tags:
+    - gitlab

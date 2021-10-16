@@ -1,0 +1,55 @@
+---
+- name: "Create the gitlab_runner volume"
+  become: yes
+  become_user: "gitlab-runner"
+  containers.podman.podman_volume:
+    name: "gitlab-runner-config"
+
+- name: "Inspect the volumes"
+  become: yes
+  become_user: "gitlab-runner"
+  containers.podman.podman_volume_info:
+    name: "gitlab-runner-config"
+  register: volume_state
+
+- set_fact:
+    _volume_path: "{{ volume_state.volumes[0]['Mountpoint'] }}"
+
+- name: "Update file with given document: {{ _volume_path }}/config.toml"
+  become: yes
+  become_user: "gitlab-runner"
+  copy:
+    dest: "{{ _volume_path }}/config.toml"
+    content: |
+      {{ ansible_managed }}
+      {{ config_toml }}
+  when: config_toml is defined
+  vars:
+    ansible_managed: "# ANSIBLE MANAGED FILE - DO NOT EDIT"
+
+- name: "Signing in to registry {{ registry_username }} with user {{ registry_host }} and password"
+  become: yes
+  become_user: "gitlab-runner"
+  containers.podman.podman_login:
+    username: "{{ registry_username }}"
+    password: "{{ registry_password }}"
+    registry: "{{ registry_host }}"
+  when:
+    - registry_username is defined
+    - registry_password is defined
+    - registry_host is defined
+
+- name: "Create the gitlab_runner container"
+  become: yes
+  become_user: "gitlab-runner"
+  containers.podman.podman_container:
+    name: "gitlab-runner"
+    state: started
+    restart_policy: always
+    image: "{{ runner_image }}"
+    privileged: true
+    env:
+      DOCKER_HOST: "unix:///var/run/podman/podman.sock"
+    volumes:
+      - "/run/podman/podman.sock:/var/run/podman/podman.sock"
+      - "gitlab-runner-config:/etc/gitlab-runner"

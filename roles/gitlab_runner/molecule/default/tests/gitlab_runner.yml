@@ -1,0 +1,42 @@
+---
+- name: "Collect facts about container volumes"
+  become: yes
+  become_user: "gitlab-runner"
+  podman_volume_info:
+    name: "gitlab-runner-config"
+  register: volume_state
+
+- name: "Check that the first volume's name is what we expect"
+  assert:
+    that:
+      - volume_state.volumes[0]['Name'] == 'gitlab-runner-config'
+
+- name: "Read the TOML config file"
+  become: yes
+  become_user: "gitlab-runner"
+  slurp:
+    src: "{{ volume_state.volumes[0]['Mountpoint'] }}/config.toml"
+  register: config_file
+
+- set_fact:
+    config_toml: "{{ config_file['content'] | b64decode }}"
+
+- assert:
+    # Search for a known custom string in the config file that was set in the
+    # playbook.
+    that:
+      - config_toml is regex("^# ANSIBLE MANAGED FILE")
+      - config_toml is search("dr00ls")
+
+- name: Get infos on container
+  become: yes
+  become_user: "gitlab-runner"
+  podman_container_info:
+    name: "gitlab-runner"
+  register: container_state
+
+- assert:
+    that:
+      - container_state.containers[0]['Name'] == 'gitlab-runner'
+      - container_state.containers[0]['State']['Status'] == 'running'
+

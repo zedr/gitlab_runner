@@ -1,2 +1,2 @@
----
-# defaults file for gitlab_runner
+runner_image: "docker.io/gitlab/gitlab-runner:latest"
+registry_host: quay.io

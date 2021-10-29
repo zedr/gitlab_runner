@@ -10,7 +10,8 @@
   register: gitlab_runner_config
 
 - debug:
-    msg: "{{ gitlab_runner_config }}"
+    msg: "{{ gitlab_runner_config }} at {{ config_toml }}"
+  when: config_toml is defined
 
 - set_fact:
     _volume_path: "{{ gitlab_runner_config['volume']['Mountpoint'] }}"

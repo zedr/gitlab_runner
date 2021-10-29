@@ -5,7 +5,8 @@ driver:
   name: libvirt
 platforms:
   - name: instance
-    image_url: "https://download.fedoraproject.org/pub/fedora/linux/releases/33/Cloud/x86_64/images/Fedora-Cloud-Base-33-1.2.x86_64.qcow2"
+    image_url: "file:///home/rdiscala/Archive/Fedora-Cloud-Base-33-1.2.x86_64.qcow2"
+    #image_url: "https://download.fedoraproject.org/pub/fedora/linux/releases/33/Cloud/x86_64/images/Fedora-Cloud-Base-33-1.2.x86_64.qcow2"
 provisioner:
   name: ansible
 verifier:

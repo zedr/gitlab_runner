@@ -16,18 +16,26 @@ ${PYTHON}:
 	@echo "Creating Python ${PYTHON_VERSION} environment..." >&2
 	@${_PYTHON} -m venv ${ENV}
 
-_update_pip:
+_update_pip: ${PYTHON}
 	@echo "Checking for updates to pip..." >&2
 	@${PYTHON} -m pip install -U pip
 
-${ANSIBLE}: _update_pip ${PYTHON}
+${MOLECULE}: _update_pip ${PYTHON}
 	@echo "Installing Ansible @ ${ANSIBLE} and dependencies..." >&2
 	@${PYTHON} -m pip install -r requirements.txt
 	@${ANSIBLE_GALAXY} collection install -r requirements.yml
 
-tests:
-	@echo "Running Molecule tests using libvirt..." >&2
+test: ${MOLECULE}
+	@echo "Running Molecule test suite using libvirt..." >&2
 	@${IN_ENV} cd roles/gitlab_runner/ ; molecule test
+
+converge: ${MOLECULE}
+	@echo "Running Molecule converge using libvirt..." >&2
+	@${IN_ENV} cd roles/gitlab_runner/ ; molecule converge
+
+verify: ${MOLECULE}
+	@echo "Running Molecule converge using libvirt..." >&2
+	@${IN_ENV} cd roles/gitlab_runner/ ; molecule verify
 
 clean:
 	@rm -rf .env

@@ -13,6 +13,17 @@
     that:
       - volume_state.volumes[0]['Name'] == 'gitlab-runner-config'
 
+- name: "Read the TOML config file"
+  slurp:
+    src: "{{ volume_state.volumes[0]['Mountpoint'] }}/config.toml"
+  register: config_file
+
+- debug:
+    msg: "{{ config_file['content'] | b64decode }}"
+
+- assert:
+    that: no
+
 - name: Get infos on container
   become: yes
   podman_container_info:
@@ -26,3 +37,4 @@
     that:
       - container_state.containers[0]['Name'] == 'gitlab-runner'
       - container_state.containers[0]['State']['Status'] == 'running'
+

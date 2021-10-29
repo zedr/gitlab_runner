@@ -5,16 +5,17 @@
     name: "gitlab-runner-config"
 
 - name: "Inspect the volumes"
-  containers.podman.podman_volume:
+  become: yes
+  containers.podman.podman_volume_info:
     name: "gitlab-runner-config"
-  register: gitlab_runner_config
+  register: volume_state
 
 - debug:
-    msg: "{{ gitlab_runner_config }} at {{ config_toml }}"
+    msg: "{{ volume_state }}"
   when: config_toml is defined
 
 - set_fact:
-    _volume_path: "{{ gitlab_runner_config['volume']['Mountpoint'] }}"
+    _volume_path: "{{ volume_state.volumes[0]['Mountpoint'] }}"
 
 - name: "Update file with given document: {{ _volume_path }}/config.toml"
   become: yes

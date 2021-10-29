@@ -10,7 +10,7 @@ ANSIBLE_GALAXY=${ENV}/bin/ansible-galaxy
 MOLECULE=${ENV}/bin/molecule
 IN_ENV=source ${ENV}/bin/activate;
 
-default: tests
+default: ${MOLECULE}
 
 ${PYTHON}:
 	@echo "Creating Python ${PYTHON_VERSION} environment..." >&2

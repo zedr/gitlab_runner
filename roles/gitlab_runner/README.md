@@ -3,36 +3,34 @@ gitlab-runner
 
 Provision a Gitlab Runner on Fedora using Podman.
 
-Tested againt Fedora 33.
-
-[![Build Status](https://travis-ci.org/travis/ansible-role-template.svg?branch=master)](https://travis-ci.org/CyVerse-Ansible/ansible-role-template)
-[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-gitlab--runner-blue.svg)](https://galaxy.ansible.com/CyVerse-Ansible/ansible-role-template/)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-gitlab--runner-blue.svg)](https://galaxy.ansible.com/zedr/gitlab_runner)
 
 Requirements
 ------------
 
- - containers.podman
+ - Fedora (tested with 33)
 
 Role Variables
 --------------
 
 | Variable                | Required | Default | Choices                   | Comments                                 |
 |-------------------------|----------|---------|---------------------------|------------------------------------------|
-| custom_registry_host | no | "docker.io" | | The FQDN host of a custom container registry, e.g. quay.io |
-| custom_runner_image  | no | "docker.io/gitlab/gitlab-runner:latest" | | The name of a custom container image, e.g. quay.io/myrepo/gitlab-runner:latest |
-| custom_registry_password | no | | | The password used to sign in to the registry |
-| custom_registry_username | no | | | The username used to sign in to the registry |
+| custom_registry_host | no | "docker.io" | | The FQDN host of a custom container registry, e.g. quay.io . |
+| custom_runner_image  | no | "docker.io/gitlab/gitlab-runner:latest" | | The name of a custom container image, e.g. quay.io/myrepo/gitlab-runner:latest . |
+| custom_registry_password | no | | | The password used to sign in to the registry. |
+| custom_registry_username | no | | | The username used to sign in to the registry. |
 | config_toml | no | | | The content of the `config.toml` file to use for the Runner. |
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+ - containers.podman
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+An example with a custom image, registry, credentials, and Gitlab Runner TOML
+configuration file:
 
     ---
     - name: "Deploy the Gitlab Runner using Podman"

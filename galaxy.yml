@@ -4,3 +4,15 @@ version: 1.0.0
 readme: README.md
 authors:
   - Rigel Di Scala <zedr@zedr.com>
+description: Run a rootless Gitlab Runner using Podman.
+license:
+  - BSD-3-Clause
+license_file: ''
+tags:
+  - gitlab
+dependencies: {}
+repository: https://github.com/zedr/gitlab_runner
+documentation: ''
+homepage: https://github.com/zedr/gitlab_runner
+issues: https://github.com/zedr/gitlab_runner/issues
+

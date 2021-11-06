@@ -21,6 +21,20 @@ Install the collection:
 
 `$ ansible-galaxy collection install -vvv build/*.tar.gz`
 
+## Usage
+
+Example playbook:
+
+```
+- hosts: all
+  collections:
+    - zedr.gitlab_runner
+  roles:
+    - role: gitlab_runner
+```
+
+See the [role documentation](roles/gitlab_runner/README.md) for additional configuration.
+
 ## Molecule test dependencies
 OS:
  - libvirt-devel

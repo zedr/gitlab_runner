@@ -16,12 +16,13 @@ Requirements
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
 | Variable                | Required | Default | Choices                   | Comments                                 |
 |-------------------------|----------|---------|---------------------------|------------------------------------------|
-| foo                     | no       | false   | true, false               | example variable                         |
-| bar                     | yes      |         | eggs, spam                | example variable                         |
+| custom_registry_host | no | "docker.io" | | The FQDN host of a custom container registry, e.g. quay.io |
+| custom_runner_image  | no | "docker.io/gitlab/gitlab-runner:latest" | | The name of a custom container image, e.g. quay.io/myrepo/gitlab-runner:latest |
+| custom_registry_password | no | | | The password used to sign in to the registry |
+| custom_registry_username | no | | | The username used to sign in to the registry |
+| config_toml | no | | | The content of the `config.toml` file to use for the Runner. |
 
 Dependencies
 ------------
@@ -39,37 +40,42 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
         - role: gitlab_runner
       vars:
-        runner_image: quay.io/
-        registry_host: "{{ custom_registry_host }}"
-        registry_username: "{{ custom_registry_username }}"
-        registry_password: "{{ custom_registry_password }}"
+        runner_image: "quay.io/rdiscala/gitlab-runner:latest"
+        registry_host: "quay.io"
+        registry_username: "MY_USERNAME"
+        registry_password: "MY_PASSWORD"
         config_toml: |
-        concurrent = 1
-        check_interval = 0
+          concurrent = 1
+          check_interval = 0
 
-        [session_server]
-        session_timeout = 1800
+          [session_server]
+          session_timeout = 1800
 
-        [[runners]]
-        name = "gitlan-runnner-podman"
-        url = "https://some.gitlab.example.com/"
-        token = "dr00ls"
-        executor = "docker"
-        [runners.custom_build_dir]
-        [runners.cache]
-        [runners.cache.s3]
-        [runners.cache.gcs]
-        [runners.cache.azure]
-        [runners.docker]
-        tls_verify = false
-        image = "quay.io/redhat-cop/ubi8-git:v1.0"
-        privileged = false
-        disable_entrypoint_overwrite = false
-        oom_kill_disable = false
-        disable_cache = false
-        volumes = ["/cache"]
-        shm_size = 0
-        extra_hosts=["some.ldap:127.0.0.1"]
+          [[runners]]
+          name = "gitlan-runnner-podman"
+          url = "https://some.gitlab.example.com/"
+          token = "dr00ls"
+          executor = "docker"
+          [runners.custom_build_dir]
+          [runners.cache]
+          [runners.cache.s3]
+          [runners.cache.gcs]
+          [runners.cache.azure]
+          [runners.docker]
+          tls_verify = false
+          image = "quay.io/redhat-cop/ubi8-git:v1.0"
+          privileged = false
+          disable_entrypoint_overwrite = false
+          oom_kill_disable = false
+          disable_cache = false
+          volumes = ["/cache"]
+          shm_size = 0
+          extra_hosts=["some.ldap:127.0.0.1"]
+
+To-do
+-----
+
+* Support authfiles.
 
 License
 -------
@@ -79,4 +85,5 @@ BSD-3-Clause
 Author Information
 ------------------
 
-See: https://github.com/zedr/ansible-podman-gitlab-runner
+Rigel Di Scala <zedr@zedr.com>
+https://github.com/zedr/ansible-podman-gitlab-runner

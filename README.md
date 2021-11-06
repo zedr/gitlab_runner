@@ -1,4 +1,5 @@
 # Gitlab Runner Playbook
+
 A playbook for installing and running a Gitlab Runner instance using Podman
 without root privileges.
 
@@ -6,12 +7,19 @@ Supports Fedora 33.
 
 ## Installation
 
-### Ansible Galaxy
+### From Ansible Galaxy
 
 `$ ansible-galaxy collection install zedr.gitlab_runner`
 
-### Local
-`$ ansible-galaxy collection install `
+### From source
+
+Build the collection:
+
+`$ ansible-galaxy collection build -vvv -f --output-path ./build`
+
+Install the collection:
+
+`$ ansible-galaxy collection install -vvv build/*.tar.gz`
 
 ## Molecule test dependencies
 OS:

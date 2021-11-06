@@ -15,4 +15,13 @@ repository: https://github.com/zedr/gitlab_runner
 documentation: ''
 homepage: https://github.com/zedr/gitlab_runner
 issues: https://github.com/zedr/gitlab_runner/issues
+build_ignore:
+  - .vagrant
+  - .env
+  - .gitignore
+  - build
+  - ansible_collections
+  - Vagrantfile
+  - init.yml
+  - Makefile
 

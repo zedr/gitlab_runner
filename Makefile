@@ -45,5 +45,5 @@ destroy: ${MOLECULE}
 	@echo "Using scenario '${MOLECULE_SCENARIO}'"
 	@${IN_ENV} cd roles/gitlab_runner/ ; molecule destroy -s ${MOLECULE_SCENARIO}
 
-clean: destroy
-	@rm -rf .env
+clean:
+	@rm -rf .env ./build

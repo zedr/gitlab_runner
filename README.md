@@ -1,4 +1,4 @@
-# Gitlab Runner Playbook
+# Rootless Gitlab Runner with Podman
 
 A playbook for installing and running a Gitlab Runner instance using Podman
 without root privileges.

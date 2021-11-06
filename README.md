@@ -4,6 +4,15 @@ without root privileges.
 
 Supports Fedora 33.
 
+## Installation
+
+### Ansible Galaxy
+
+`$ ansible-galaxy collection install zedr.gitlab_runner`
+
+### Local
+`$ ansible-galaxy collection install `
+
 ## Molecule test dependencies
 OS:
  - libvirt-devel
@@ -38,7 +47,7 @@ $ EXTRA_VARS="custom_runner_image=quay.io/myrepo/gitlab-runner:latest \
               custom_registry_host=quay.io \
               custom_registry_username=my_quay_user \
               custom_registry_password=my_quay_pass" \
-MOLECULE_SCENARY="registry_auth" \
+MOLECULE_SCENARIO="registry_auth" \
 make converge
 ```
 

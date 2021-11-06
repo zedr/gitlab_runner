@@ -1,2 +1,2 @@
 runner_image: "docker.io/gitlab/gitlab-runner:latest"
-registry_host: quay.io
+registry_host: "docker.io"

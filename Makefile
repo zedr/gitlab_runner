@@ -23,6 +23,7 @@ ${MOLECULE}: ${PYTHON}
 	@echo "Installing Ansible @ ${ANSIBLE} and dependencies..." >&2
 	@${PYTHON} -m pip install -r requirements.txt
 	@${ANSIBLE_GALAXY} collection install -r requirements.yml
+	@${ANSIBLE_GALAXY} collection install -r roles/gitlab_runner/requirements.yml
 
 test: ${MOLECULE}
 	@echo "Running Molecule test suite using libvirt..." >&2

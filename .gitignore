@@ -1,2 +1,3 @@
 .vagrant
 .cache
+ansible_collections

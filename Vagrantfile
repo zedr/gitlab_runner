@@ -46,6 +46,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :ansible do | ansible |
       ansible.playbook = "init.yml"
+      ansible.config_file = "ansible.cfg"
+      ansible.galaxy_role_file = "roles/gitlab_runner/requirements.yml"
   end
 
 end

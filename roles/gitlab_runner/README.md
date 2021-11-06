@@ -84,4 +84,5 @@ Author Information
 ------------------
 
 Rigel Di Scala <zedr@zedr.com>
+
 https://github.com/zedr/ansible-podman-gitlab-runner

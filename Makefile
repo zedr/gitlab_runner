@@ -9,7 +9,8 @@ ANSIBLE=${ENV}/bin/ansible
 ANSIBLE_GALAXY=${ENV}/bin/ansible-galaxy
 MOLECULE=${ENV}/bin/molecule
 IN_ENV=source ${ENV}/bin/activate ;
-SCENARIO=default
+MOLECULE_SCENARIO := $(or $(MOLECULE_SCENARIO),"default")
+MOLECULE_ARGS=-s ${MOLECULE_SCENARIO} -- --extra-vars='${EXTRA_VARS}'
 
 default: ${MOLECULE}
 
@@ -27,19 +28,22 @@ ${MOLECULE}: ${PYTHON}
 
 test: ${MOLECULE}
 	@echo "Running Molecule test suite using libvirt..." >&2
-	@${IN_ENV} cd roles/gitlab_runner/ ; molecule test -s ${SCENARIO}
+	@${IN_ENV} cd roles/gitlab_runner/ ; molecule test ${MOLECULE_ARGS}
 
 converge: ${MOLECULE}
 	@echo "Running Molecule converge using libvirt..." >&2
-	@${IN_ENV} cd roles/gitlab_runner/ ; molecule converge -s ${SCENARIO}
+	@echo "Using scenario '${MOLECULE_SCENARIO}'"
+	@${IN_ENV} cd roles/gitlab_runner/ ; molecule converge ${MOLECULE_ARGS}
 
 verify: ${MOLECULE}
 	@echo "Running Molecule converge using libvirt..." >&2
-	@${IN_ENV} cd roles/gitlab_runner/ ; molecule verify -s ${SCENARIO}
+	@echo "Using scenario '${MOLECULE_SCENARIO}'"
+	@${IN_ENV} cd roles/gitlab_runner/ ; molecule verify ${MOLECULE_ARGS}
 
 destroy: ${MOLECULE}
 	@echo "Running Molecule converge using libvirt..." >&2
-	@${IN_ENV} cd roles/gitlab_runner/ ; molecule destroy -s ${SCENARIO}
+	@echo "Using scenario '${MOLECULE_SCENARIO}'"
+	@${IN_ENV} cd roles/gitlab_runner/ ; molecule destroy -s ${MOLECULE_SCENARIO}
 
 clean: destroy
 	@rm -rf .env

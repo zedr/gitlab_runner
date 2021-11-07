@@ -43,7 +43,7 @@ converge: ${MOLECULE}
 verify: ${MOLECULE}
 	@echo "Running Molecule converge using libvirt..." >&2
 	@echo "Using scenario '${MOLECULE_SCENARIO}'"
-	@${IN_ENV} cd roles/gitlab_runner/ ; molecule verify ${MOLECULE_ARGS}
+	@${IN_ENV} cd roles/gitlab_runner/ ; molecule verify -s ${MOLECULE_SCENARIO}
 
 destroy: ${MOLECULE}
 	@echo "Running Molecule converge using libvirt..." >&2

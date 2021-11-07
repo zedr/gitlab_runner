@@ -4,17 +4,11 @@
   become_user: "gitlab-runner"
   containers.podman.podman_volume:
     name: "gitlab-runner-config"
-
-- name: "Inspect the volumes"
-  become: yes
-  become_user: "gitlab-runner"
-  containers.podman.podman_volume_info:
-    name: "gitlab-runner-config"
   register: volume_state
 
 - name: "Define the container volume mountpoint"
   set_fact:
-    _volume_path: "{{ volume_state.volumes[0]['Mountpoint'] }}"
+    _volume_path: "{{ volume_state.volume['Mountpoint'] }}"
 
 - name: "Update file with given document: {{ _volume_path }}/config.toml"
   become: yes

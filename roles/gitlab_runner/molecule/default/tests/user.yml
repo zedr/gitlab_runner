@@ -1,8 +1,11 @@
 ---
-- stat:
+- name: "Check status of the user home directory"
+  stat:
     path: "/home/gitlab-runner"
   become: yes
   register: user_home
 
-- fail:
-  when: user_home.stat.exists is false
+- name:  "Assert that the user home exists"
+  assert:
+    that:
+      - user_home.stat.exists

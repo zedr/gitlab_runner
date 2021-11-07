@@ -9,6 +9,7 @@
 - name: "Add explicit cgroupfs configuration"
   become: yes
   blockinfile:
+    mode: 0644
     create: true
     path: /etc/containers/containers.conf
     block: |

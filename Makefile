@@ -1,4 +1,4 @@
-.PHONY: default clean test converge verify destroy
+.PHONY: default clean lint test converge verify destroy
 
 ENV=.env
 _PYTHON=python3
@@ -25,6 +25,11 @@ ${MOLECULE}: ${PYTHON}
 	@${PYTHON} -m pip install -r requirements.txt
 	@${ANSIBLE_GALAXY} collection install -r requirements.yml
 	@${ANSIBLE_GALAXY} collection install -r roles/gitlab_runner/requirements.yml
+
+lint: ${MOLECULE}
+	@echo "Linting roles..."
+	@yamllint roles/gitlab_runner/
+	@ansible-lint roles/gitlab_runner/
 
 test: ${MOLECULE}
 	@echo "Running Molecule test suite using libvirt..." >&2

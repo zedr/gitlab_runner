@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: zedr
   description: Provision a Gitlab Runner instance using Podman
@@ -8,7 +9,7 @@ galaxy_info:
   platforms:
     - name: Fedora
       versions:
-      - 33
+        - 33
 
   galaxy_tags:
     - gitlab

@@ -6,7 +6,7 @@
 - name: "Check the status of systemd service Podman"
   assert:
     that:
-     - services_state.ansible_facts.services['podman.service'].status == "enabled"
+      - services_state.ansible_facts.services['podman.service'].status == "enabled"
 
 - name: "Check the Podman socket"
   stat:
@@ -23,10 +23,7 @@
     path: /var/run/podman/podman.sock
   register: acl_info
 
-- debug: msg="{{ acl_info }}"
-
-- name: >
-    Check that the ACL contains a R/W permission for the gitlab-runner user
+- name: "Check that the ACL contains a RW permission for the gitlab-runner user"
   assert:
     that:
       - "{{ 'user:gitlab-runner:rw-' in acl_info.acl }}"

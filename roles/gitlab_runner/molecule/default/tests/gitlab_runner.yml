@@ -18,25 +18,27 @@
     src: "{{ volume_state.volumes[0]['Mountpoint'] }}/config.toml"
   register: config_file
 
-- set_fact:
+- name: "Define the content of the TOML config file"
+  set_fact:
     config_toml: "{{ config_file['content'] | b64decode }}"
 
-- assert:
-    # Search for a known custom string in the config file that was set in the
-    # playbook.
+- name: > 
+    Search for a known custom string in the config file that was set in the
+    playbook.
+  assert:
     that:
       - config_toml is regex("^# ANSIBLE MANAGED FILE")
       - config_toml is search("dr00ls")
 
-- name: Get infos on container
+- name: "Get infos on container"
   become: yes
   become_user: "gitlab-runner"
   podman_container_info:
     name: "gitlab-runner"
   register: container_state
 
-- assert:
+- name: "Check container state"
+  assert:
     that:
       - container_state.containers[0]['Name'] == 'gitlab-runner'
       - container_state.containers[0]['State']['Status'] == 'running'
-

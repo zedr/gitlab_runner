@@ -1,6 +1,12 @@
 ---
+- name: "Create the local gitlab-runner group"
+  become: yes
+  group:
+    name: "gitlab-runner"
+    state: "present"
+
 - name: "Create the local gitlab-runner user"
   become: yes
   user:
     name: "gitlab-runner"
-    group: "users"
+    group: "gitlab-runner"

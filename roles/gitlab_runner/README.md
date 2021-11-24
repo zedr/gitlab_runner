@@ -50,7 +50,7 @@ configuration file:
           session_timeout = 1800
 
           [[runners]]
-          name = "gitlan-runnner-podman"
+          name = "gitlan-runner-podman"
           url = "https://some.gitlab.example.com/"
           token = "dr00ls"
           executor = "docker"

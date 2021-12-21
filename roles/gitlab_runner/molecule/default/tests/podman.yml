@@ -9,8 +9,9 @@
       - services_state.ansible_facts.services['podman.service'].status == "enabled"
 
 - name: "Check the Podman socket"
+  become: true
   stat:
-    path: "/run/podman/podman.sock"
+    path: "/var/run/podman/podman.sock"
   register: podman_sock
 
 - name: "Check that the Podman socket file exists"
@@ -19,8 +20,9 @@
       - podman_sock.stat.exists is true
 
 - name: "Read the file ACL for the Podman socket"
+  become: true
   acl:
-    path: /var/run/podman/podman.sock
+    path: "/var/run/podman/podman.sock"
   register: acl_info
 
 - name: "Check that the ACL contains a RW permission for the gitlab-runner user"

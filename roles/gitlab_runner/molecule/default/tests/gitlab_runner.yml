@@ -12,8 +12,8 @@
       - volume_state.volumes[0]['Name'] == 'gitlab-runner-config'
 
 - name: "Read the TOML config file"
-  become: yes
-  become_user: "gitlab-runner"
+  become: true
+  become_user: "{{ podman_user }}"
   slurp:
     src: "{{ volume_state.volumes[0]['Mountpoint'] }}/config.toml"
   register: config_file
@@ -30,9 +30,9 @@
       - config_toml is regex("^# ANSIBLE MANAGED FILE")
       - config_toml is search("dr00ls")
 
-- name: "Get infos on container"
+- name: "Check container information"
   become: yes
-  become_user: "gitlab-runner"
+  become_user: "{{ podman_user }}"
   podman_container_info:
     name: "gitlab-runner"
   register: container_state

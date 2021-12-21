@@ -1,0 +1,17 @@
+---
+- name: "Reboot the machine"
+  become: true
+  reboot:
+
+- name: "Check that the container is still running"
+  become: yes
+  become_user: "{{ podman_user }}"
+  podman_container_info:
+    name: "gitlab-runner"
+  register: container_state
+
+- name: "Check container state"
+  assert:
+    that:
+      - container_state.containers[0]['Name'] == 'gitlab-runner'
+      - container_state.containers[0]['State']['Status'] == 'running'

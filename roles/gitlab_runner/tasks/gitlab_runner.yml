@@ -1,7 +1,7 @@
 ---
 - name: "Create the gitlab_runner volume"
-  become: yes
-  become_user: "gitlab-runner"
+  become: true
+  become_user: "{{ podman_user }}"
   containers.podman.podman_volume:
     name: "gitlab-runner-config"
   register: volume_state
@@ -36,16 +36,22 @@
     - registry_host is defined
 
 - name: "Create the gitlab_runner container"
-  become: yes
-  become_user: "gitlab-runner"
+  become: true
+  become_user: "{{ podman_user }}"
   containers.podman.podman_container:
     name: "gitlab-runner"
     state: started
-    restart_policy: always
     image: "{{ runner_image }}"
-    privileged: true
-    env:
-      DOCKER_HOST: "unix:///var/run/podman/podman.sock"
-    volumes:
-      - "/run/podman/podman.sock:/var/run/podman/podman.sock"
-      - "gitlab-runner-config:/etc/gitlab-runner"
+    privileged: false
+    generate_systemd:
+      path: "{{ podman_user_home }}/.config/systemd/user"
+      restart_policy: "on-failure"
+
+- name: "Enable Systemd for {{ item }}"
+  become_user: "{{ podman_user }}"
+  become: true
+  systemd:
+    enabled: true
+    scope: user
+    name: "container-gitlab-runner"
+    daemon_reload: true

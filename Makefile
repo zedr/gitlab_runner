@@ -2,7 +2,7 @@
 
 ENV=.env
 _PYTHON=python3
-PYTHON_VERSION=$(shell ${_PYTHON} -V | cut -d " " -f 2 | cut -c1-3)
+PYTHON_VERSION=$(shell ${_PYTHON} -V | cut -d " " -f 2 | cut -d "." -f1-2)
 SITE_PACKAGES=${ENV}/lib/python${PYTHON_VERSION}/site-packages
 PYTHON=${ENV}/bin/python3
 ANSIBLE=${ENV}/bin/ansible

@@ -8,3 +8,6 @@
     - include_tasks: "tests/user.yml"
     - include_tasks: "tests/podman.yml"
     - include_tasks: "tests/gitlab_runner.yml"
+    - include_tasks: "tests/survive_reboot.yml"
+  vars:
+    podman_user: "gitlab-runner"

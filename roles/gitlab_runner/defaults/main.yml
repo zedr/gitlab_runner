@@ -1,3 +1,5 @@
 ---
 runner_image: "docker.io/gitlab/gitlab-runner:latest"
 registry_host: "docker.io"
+podman_user: "gitlab-runner"
+podman_user_home: "/home/{{ podman_user}}"

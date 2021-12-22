@@ -1,19 +1,29 @@
 ---
-- name: "Create the local gitlab-runner group"
-  become: yes
-  group:
-    name: "{{ podman_user }}"
-    state: "present"
+- name: "Check if the user exists"
+  getent:
+    database: passwd
+    key: "{{ podman_user }}"
+    fail_key: false
 
-- name: "Create the local user '{{ podman_user }}'"
-  become: yes
-  user:
-    name: "{{ podman_user }}"
-    group: "{{ podman_user }}"
-  register: user_out
+- when:
+    - not getent_passwd[podman_user]
+  block:
 
-- set_fact:
-    podman_user_home: "{{ user_out['home'] }}"
+    - name: "Create the local gitlab-runner group"
+      become: yes
+      group:
+        name: "{{ podman_user }}"
+        state: "present"
+
+    - name: "Create the local user '{{ podman_user }}'"
+      become: yes
+      user:
+        name: "{{ podman_user }}"
+        group: "{{ podman_user }}"
+      register: user_out
+
+    - set_fact:
+        podman_user_home: "{{ user_out['home'] }}"
 
 - name: "Create a tmp directory for ansible in {{ podman_user_home }}"
   become_user: "{{ podman_user }}"

@@ -4,13 +4,6 @@
   group:
     name: "{{ podman_user }}"
     state: "present"
-  register: user_out
-
-- name: "Create the local gitlab-runner user"
-  become: yes
-  user:
-    name: "{{ podman_user }}"
-    group: "{{ podman_user }}"
 
 - name: "Create the local user '{{ podman_user }}'"
   become: yes

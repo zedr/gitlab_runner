@@ -20,6 +20,7 @@ Role Variables
 | custom_registry_password | no | | | The password used to sign in to the registry. |
 | custom_registry_username | no | | | The username used to sign in to the registry. |
 | config_toml | no | | | The content of the `config.toml` file to use for the Runner. |
+| podman_user | no | gitlab-runner | | The name of the unprivileged Linux user that will run the container. Will be added if not present. |
 
 Dependencies
 ------------

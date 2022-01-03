@@ -18,15 +18,11 @@
 
 - name: "Enable Podman socket"
   become: yes
+  become_user: "{{ podman_user }}"
   systemd:
-    name: "podman"
+    name: "podman.socket"
     state: started
+    scope: user
     enabled: yes
-    daemon_reload: yes
-
-- name: "Set the ACL for the gitlab-runner user on the Podman socket file"
-  become: yes
-  acl:
-    path: /var/run/podman/podman.sock
-    entry: "user:gitlab-runner:rw"
-    state: present
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ podman_user_uid }}"

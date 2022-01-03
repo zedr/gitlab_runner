@@ -1,4 +1,10 @@
 ---
+- name: "Define some facts"
+  include_tasks:
+    file: "facts.yml"
+  tags:
+    - always
+
 - name: "Running User creation tasks on {{ ansible_host }}"
   include_tasks:
     file: "user.yml"

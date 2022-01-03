@@ -1,0 +1,9 @@
+---
+- name: "Examine the database of users so we can extract the UID later"
+  getent:
+    database: "passwd"
+  register: getent_out
+
+- name: "Set the user UID fact"
+  set_fact:
+    podman_user_uid: "{{ getent_out['ansible_facts']['getent_passwd'][podman_user].1 }}"

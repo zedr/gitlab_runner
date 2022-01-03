@@ -1,31 +1,23 @@
 ---
-- name: collect facts about system services
-  service_facts:
-  register: services_state
+- name: "Define some facts"
+  include_tasks:
+    file: "../../../tasks/facts.yml"
 
-- name: "Check the status of systemd service Podman"
-  assert:
-    that:
-      - services_state.ansible_facts.services['podman.service'].status == "enabled"
-
-- name: "Check the Podman socket"
+- name: >
+    Run a command that checks the state of the podman.socket service
+    for {{ podman_user }}
   become: true
-  stat:
-    path: "/var/run/podman/podman.sock"
-  register: podman_sock
+  become_user: "{{ podman_user }}"
+  command:
+    cmd: "systemctl --user status podman.socket"
+  register: systemd_status_out
+  environment:
+    # Required for user execution - here we use the UID of the `podman_user`
+    XDG_RUNTIME_DIR: "/run/user/{{ podman_user_uid }}"
 
-- name: "Check that the Podman socket file exists"
+- name: >
+    Check that the user podman.socket systemd service is running and listening
+    for {{ podman_user}}
   assert:
     that:
-      - podman_sock.stat.exists is true
-
-- name: "Read the file ACL for the Podman socket"
-  become: true
-  acl:
-    path: "/var/run/podman/podman.sock"
-  register: acl_info
-
-- name: "Check that the ACL contains a RW permission for the gitlab-runner user"
-  assert:
-    that:
-      - "{{ 'user:gitlab-runner:rw-' in acl_info.acl }}"
+      - "'Active: active (listening)' in systemd_status_out.stdout"

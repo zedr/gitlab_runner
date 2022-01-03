@@ -48,6 +48,9 @@
     generate_systemd:
       path: "{{ podman_user_home }}/.config/systemd/user"
       restart_policy: "on-failure"
+    volumes:
+      - "/run/user/{{ podman_user_uid }}/podman/podman.sock:/var/run/podman/podman.sock"
+      - "gitlab-runner-config:/etc/gitlab-runner"
 
 - name: "Enable Systemd for {{ item }}"
   become_user: "{{ podman_user }}"

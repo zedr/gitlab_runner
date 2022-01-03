@@ -1,6 +1,6 @@
 namespace: zedr
 name: gitlab_runner
-version: 1.1.0
+version: 1.2.0
 readme: README.md
 authors:
   - Rigel Di Scala <zedr@zedr.com>

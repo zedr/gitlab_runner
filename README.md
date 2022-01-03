@@ -1,9 +1,9 @@
-# Unprivileged Gitlab Runner with Podman
+# Gitlab Runner with Podman
 
 [![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-gitlab--runner-blue.svg)](https://galaxy.ansible.com/zedr/gitlab_runner)
 
 A playbook for installing and running a Gitlab Runner instance using Podman
-without root privileges.
+using a normal user. The container still needs to run privileged.
 
 Supports Fedora 33.
 

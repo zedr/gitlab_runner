@@ -42,8 +42,7 @@
     name: "gitlab-runner"
     state: started
     image: "{{ runner_image }}"
-    privileged: false
-    user: "{{ podman_user_uid }}"
+    privileged: true
     env:
       DOCKER_HOST: "unix:///var/run/podman/podman.sock"
     generate_systemd:

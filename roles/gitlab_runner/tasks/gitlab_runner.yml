@@ -43,6 +43,8 @@
     state: started
     image: "{{ runner_image }}"
     privileged: false
+    env:
+      DOCKER_HOST: "unix:///var/run/podman/podman.sock"
     generate_systemd:
       path: "{{ podman_user_home }}/.config/systemd/user"
       restart_policy: "on-failure"

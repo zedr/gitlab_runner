@@ -12,7 +12,6 @@
     cmd: "systemctl --user status podman.socket"
   register: systemd_status_out
   environment:
-    # Required for user execution - here we use the UID of the `podman_user`
     XDG_RUNTIME_DIR: "/run/user/{{ podman_user_uid }}"
 
 - name: >
@@ -21,3 +20,18 @@
   assert:
     that:
       - "'Active: active (listening)' in systemd_status_out.stdout"
+
+- name: >
+    Check that the podman socket is readable inside the gitlab-runner container
+  become: true
+  become_user: "{{ podman_user }}"
+  command:
+    cmd: "podman exec -t gitlab-runner ls /var/run/podman/podman.sock"
+  register: podman_ls_out
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ podman_user_uid }}"
+
+- name: "Check that the previous command has exited successfully"
+  assert:
+    that:
+      - podman_ls_out.rc == 0

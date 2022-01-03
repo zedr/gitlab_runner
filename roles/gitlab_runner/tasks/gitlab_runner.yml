@@ -35,7 +35,7 @@
     - registry_password is defined
     - registry_host is defined
 
-- name: "Create the gitlab_runner container"
+- name: "Create the gitlab runner container"
   become: true
   become_user: "{{ podman_user }}"
   containers.podman.podman_container:
@@ -49,10 +49,10 @@
       path: "{{ podman_user_home }}/.config/systemd/user"
       restart_policy: "on-failure"
     volumes:
-      - "/run/user/{{ podman_user_uid }}/podman/podman.sock:/var/run/podman/podman.sock"
+      - "/run/user/{{ podman_user_uid }}/podman/podman.sock:/var/run/podman/podman.sock:z"
       - "gitlab-runner-config:/etc/gitlab-runner"
 
-- name: "Enable Systemd for {{ item }}"
+- name: "Enable systemd unit for the gitlab runner container"
   become_user: "{{ podman_user }}"
   become: true
   systemd:

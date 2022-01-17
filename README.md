@@ -61,7 +61,7 @@ $ make destroy
 
 ## Test with a local image to speed up things
 ```
-$ FEDORA_IMAGE_URL=file:///home/zedr/Archive/Fedora-Cloud-Base-33-1.2.x86_64.qcow2 \
+$ CLOUD_IMAGE_URL=file:///home/zedr/Archive/Fedora-Cloud-Base-33-1.2.x86_64.qcow2 \
 make converge
 ```
 

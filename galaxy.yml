@@ -19,6 +19,8 @@ build_ignore:
   - .vagrant
   - .env
   - .gitignore
+  - .idea
+  - .cache
   - build
   - ansible_collections
   - Vagrantfile

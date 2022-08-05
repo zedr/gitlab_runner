@@ -4,6 +4,7 @@
   roles:
     - role: gitlab_runner
   vars:
+    runner_name: "my-test-runner"
     config_toml: |
       concurrent = 1
       check_interval = 0

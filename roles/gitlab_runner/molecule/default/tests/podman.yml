@@ -16,7 +16,7 @@
 
 - name: >
     Check that the user podman.socket systemd service is running and listening
-    for {{ podman_user}}
+    for {{ podman_user }}
   assert:
     that:
       - "'Active: active (listening)' in systemd_status_out.stdout"
@@ -26,7 +26,7 @@
   become: true
   become_user: "{{ podman_user }}"
   command:
-    cmd: "podman exec -t gitlab-runner ls /var/run/podman/podman.sock"
+    cmd: "podman exec -t {{ runner_name }} ls /var/run/podman/podman.sock"
   register: podman_ls_out
   environment:
     XDG_RUNTIME_DIR: "/run/user/{{ podman_user_uid }}"

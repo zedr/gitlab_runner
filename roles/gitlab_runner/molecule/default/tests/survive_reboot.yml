@@ -7,11 +7,11 @@
   become: yes
   become_user: "{{ podman_user }}"
   podman_container_info:
-    name: "gitlab-runner"
+    name: "{{ runner_name }}"
   register: container_state
 
 - name: "Check container state"
   assert:
     that:
-      - container_state.containers[0]['Name'] == 'gitlab-runner'
+      - container_state.containers[0]['Name'] == '{{ runner_name }}'
       - container_state.containers[0]['State']['Status'] == 'running'

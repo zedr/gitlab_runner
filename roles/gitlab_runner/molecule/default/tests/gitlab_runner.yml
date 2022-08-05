@@ -3,13 +3,13 @@
   become: yes
   become_user: "gitlab-runner"
   podman_volume_info:
-    name: "gitlab-runner-config"
+    name: "gitlab-runner-config_my-test-runner"
   register: volume_state
 
 - name: "Check that the first volume's name is what we expect"
   assert:
     that:
-      - volume_state.volumes[0]['Name'] == 'gitlab-runner-config'
+      - volume_state.volumes[0]["Name"] == "gitlab-runner-config_my-test-runner"
 
 - name: "Read the TOML config file"
   become: true
@@ -34,11 +34,11 @@
   become: yes
   become_user: "{{ podman_user }}"
   podman_container_info:
-    name: "gitlab-runner"
+    name: "my-test-runner"
   register: container_state
 
 - name: "Check container state"
   assert:
     that:
-      - container_state.containers[0]['Name'] == 'gitlab-runner'
+      - container_state.containers[0]['Name'] == '{{ runner_name }}'
       - container_state.containers[0]['State']['Status'] == 'running'

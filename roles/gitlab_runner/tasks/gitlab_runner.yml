@@ -1,9 +1,16 @@
 ---
+- name: "Override the volume name if the runner name is defined"
+  set_fact:
+    runner_config_podman_volume_name: >-
+      {{ runner_config_podman_volume_name }}_{{ runner_name }}
+  when:
+    - runner_name is defined
+
 - name: "Create the gitlab_runner volume"
   become: true
   become_user: "{{ podman_user }}"
   containers.podman.podman_volume:
-    name: "gitlab-runner-config"
+    name: "{{ runner_config_podman_volume_name }}"
   register: volume_state
 
 - name: "Define the container volume mountpoint"
@@ -35,11 +42,17 @@
     - registry_password is defined
     - registry_host is defined
 
+- name: "Override the container name when the runner name var is defined"
+  set_fact:
+    runner_container_name: "{{ runner_name }}"
+  when:
+    - runner_name is defined
+
 - name: "Create the gitlab runner container"
   become: true
   become_user: "{{ podman_user }}"
   containers.podman.podman_container:
-    name: "gitlab-runner"
+    name: "{{ runner_container_name }}"
     state: started
     image: "{{ runner_image }}"
     privileged: true
@@ -50,7 +63,7 @@
       restart_policy: "on-failure"
     volumes:
       - "/run/user/{{ podman_user_uid }}/podman/podman.sock:/var/run/podman/podman.sock:z"
-      - "gitlab-runner-config:/etc/gitlab-runner"
+      - "{{ runner_config_podman_volume_name }}:/etc/gitlab-runner"
 
 - name: "Enable systemd unit for the gitlab runner container"
   become_user: "{{ podman_user }}"
@@ -58,5 +71,5 @@
   systemd:
     enabled: true
     scope: user
-    name: "container-gitlab-runner"
+    name: "container-{{ runner_container_name }}"
     daemon_reload: true

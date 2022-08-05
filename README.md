@@ -90,3 +90,9 @@ Destroy the VM with `make destroy` and retry.
 
 ### "Failed to download metadata" when creating the VM
 A sporadic issue causing the error message `Failed to download metadata for repo 'fedora-modular': Cannot prepare internal mirrorlist: Status code: 503` seems to be unrelated to the role and its tests. Try launching the tests again.
+
+### $ systemctl --user status gives an error
+
+Running systemd ctl commands as an unprivileged user might yield an error `Failed to connect to bus: $DBUS_SESSION_BUS_ADDRESS and $XDG_RUNTIME_DIR not defined (consider using --machine=<user>@.host --user to connect to bus of other user)`
+
+Try defining the env var `XDG_RUNTIME_DIR`, e.g. `XDG_RUNTIME_DIR=/run/user/$UID systemctl --user status`

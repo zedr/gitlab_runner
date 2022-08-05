@@ -21,6 +21,7 @@ Role Variables
 | custom_registry_username | no | | | The username used to sign in to the registry. |
 | config_toml | no | | | The content of the `config.toml` file to use for the Runner. |
 | podman_user | no | gitlab-runner | | The name of the unprivileged Linux user that will run the container. Will be added if not present. |
+| runner_name | no | gitlab-runner | | The name of this Gitlab runner instance. Used to run separate runners running on the same host. (New in 1.4.0)|
 
 Dependencies
 ------------
@@ -39,6 +40,7 @@ configuration file:
       roles:
         - role: gitlab_runner
       vars:
+        runner_name: "my-test-runner"
         runner_image: "quay.io/rdiscala/gitlab-runner:latest"
         registry_host: "quay.io"
         registry_username: "MY_USERNAME"

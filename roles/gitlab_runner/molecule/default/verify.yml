@@ -5,9 +5,11 @@
   hosts: all
   gather_facts: false
   tasks:
+    - include_vars: "../../defaults/main.yml"
     - include_tasks: "tests/user.yml"
     - include_tasks: "tests/podman.yml"
     - include_tasks: "tests/gitlab_runner.yml"
     - include_tasks: "tests/survive_reboot.yml"
   vars:
     podman_user: "gitlab-runner"
+    runner_name: "my-test-runner"

@@ -5,7 +5,7 @@
 A playbook for installing and running a Gitlab Runner instance using Podman
 using a normal user. The container still needs to run privileged.
 
-Supports Fedora 33.
+Supports Fedora 33, Debian 12.
 
 ## Installation
 
